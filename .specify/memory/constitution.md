@@ -142,6 +142,7 @@ All changes MUST:
 - Reference issue/feature numbers where applicable
 - Atomic commits (one logical change per commit)
 - Conventional commits format encouraged (feat:, fix:, docs:, refactor:, etc.)
+- Ask for feedback before committing the changes to avoid possible console errors or bugs.
 
 ## Governance
 

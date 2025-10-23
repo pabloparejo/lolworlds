@@ -1,4 +1,4 @@
-import { Round, Match } from './types';
+import type { Round, Match } from './types';
 import { v4 as uuidv4 } from 'uuid';
 import { isMatchResolved } from './Match';
 

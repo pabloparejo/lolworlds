@@ -1,4 +1,5 @@
-import { TournamentState, Team, DrawAlgorithm, TOURNAMENT_STATE_VERSION } from './types';
+import type { TournamentState, Team } from './types';
+import { DrawAlgorithm, TOURNAMENT_STATE_VERSION } from './types';
 import { createSwissStage, createKnockoutStage } from './Stage';
 
 /**

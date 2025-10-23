@@ -1,4 +1,5 @@
-import { Team, TeamStatus } from './types';
+import type { Team } from './types';
+import { TeamStatus } from './types';
 
 /**
  * Get a team's current record string (e.g., "2-1")

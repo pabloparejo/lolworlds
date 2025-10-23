@@ -1,4 +1,5 @@
-import { Stage, StageType, StageStatus } from './types';
+import type { Stage } from './types';
+import { StageType, StageStatus } from './types';
 
 /**
  * Create a new Swiss stage

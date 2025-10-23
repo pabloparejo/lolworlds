@@ -1,4 +1,5 @@
-import { Match, StageType, KnockoutRound } from './types';
+import type { Match } from './types';
+import { StageType, KnockoutRound } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
