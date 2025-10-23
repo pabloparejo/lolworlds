@@ -12,12 +12,11 @@ import type {
   Match,
   Round,
   TournamentState,
-  DrawAlgorithm,
   TeamData,
   SimulationResult,
   ValidationResult,
-  RoundSimulationResult,
-} from './types';
+} from '../entities/types';
+import { DrawAlgorithm } from '../entities/types';
 
 // ============================================================================
 // Domain Service Interfaces
