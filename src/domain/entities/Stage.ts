@@ -29,7 +29,7 @@ export function createKnockoutStage(): Stage {
  * Check if a stage is complete
  */
 export function isStageComplete(stage: Stage): boolean {
-  return stage.status === StageStatus.COMPLETE;
+  return stage.status === StageStatus.COMPLETED;
 }
 
 /**
@@ -48,7 +48,7 @@ export function startStage(stage: Stage): Stage {
 export function completeStage(stage: Stage): Stage {
   return {
     ...stage,
-    status: StageStatus.COMPLETE,
+    status: StageStatus.COMPLETED,
   };
 }
 

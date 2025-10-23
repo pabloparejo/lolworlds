@@ -29,7 +29,7 @@ export function SwissStage({ state, onTeamClick, onVsClick, onSimulateRound }: S
   // Get unique records and sort them
   const records = Array.from(matchesByRecord.keys()).sort();
 
-  const isComplete = swissStage.status === 'COMPLETE';
+  const isComplete = swissStage.status === 'COMPLETED';
   const hasStarted = swissStage.status !== 'NOT_STARTED';
 
   return (

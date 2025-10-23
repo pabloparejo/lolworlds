@@ -42,9 +42,9 @@ export class SimulateRound {
     const { swissStage, knockoutStage } = state;
 
     // Determine which stage we're in
-    if (swissStage.status !== 'COMPLETE') {
+    if (swissStage.status !== 'COMPLETED') {
       return this.simulateSwissRound(state);
-    } else if (knockoutStage.status !== 'COMPLETE') {
+    } else if (knockoutStage.status !== 'COMPLETED') {
       return this.simulateKnockoutRound(state);
     }
 
