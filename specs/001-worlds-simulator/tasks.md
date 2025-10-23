@@ -99,17 +99,17 @@ description: "Task list for League of Legends Worlds Tournament Simulator"
 
 ### Presentation Layer for User Story 1
 
-- [ ] T043 [P] [US1] Create TeamCard component in src/presentation/components/swiss/TeamCard.tsx displaying team name, region, and record
-- [ ] T044 [P] [US1] Create MatchCard component in src/presentation/components/swiss/MatchCard.tsx displaying two teams and vs indicator
-- [ ] T045 [US1] Create RecordBracket component in src/presentation/components/swiss/RecordBracket.tsx grouping matches by record (0-0, 1-0, etc.)
-- [ ] T046 [US1] Create SwissStage component in src/presentation/components/swiss/SwissStage.tsx orchestrating all record brackets
-- [ ] T047 [P] [US1] Create TeamList component in src/presentation/components/shared/TeamList.tsx for Qualified/Eliminated sections
-- [ ] T048 [P] [US1] Create DrawSelector component in src/presentation/components/shared/DrawSelector.tsx for Random/Biased toggle
-- [ ] T049 [US1] Create Bracket component in src/presentation/components/knockout/Bracket.tsx displaying knockout bracket tree
-- [ ] T050 [US1] Create BracketMatch component in src/presentation/components/knockout/BracketMatch.tsx for single knockout match
-- [ ] T051 [US1] Create KnockoutStage component in src/presentation/components/knockout/KnockoutStage.tsx orchestrating quarterfinals/semis/finals
-- [ ] T052 [US1] Create TournamentPage in src/presentation/pages/TournamentPage.tsx integrating SwissStage, KnockoutStage, TeamList, and DrawSelector
-- [ ] T053 [US1] Wire TournamentPage into App.tsx routing
+- [X] T043 [P] [US1] Create TeamCard component in src/presentation/components/swiss/TeamCard.tsx displaying team name, region, and record
+- [X] T044 [P] [US1] Create MatchCard component in src/presentation/components/swiss/MatchCard.tsx displaying two teams and vs indicator
+- [X] T045 [US1] Create RecordBracket component in src/presentation/components/swiss/RecordBracket.tsx grouping matches by record (0-0, 1-0, etc.)
+- [X] T046 [US1] Create SwissStage component in src/presentation/components/swiss/SwissStage.tsx orchestrating all record brackets
+- [X] T047 [P] [US1] Create TeamList component in src/presentation/components/shared/TeamList.tsx for Qualified/Eliminated sections
+- [X] T048 [P] [US1] Create DrawSelector component in src/presentation/components/shared/DrawSelector.tsx for Random/Biased toggle
+- [X] T049 [US1] Create Bracket component in src/presentation/components/knockout/Bracket.tsx displaying knockout bracket tree
+- [X] T050 [US1] Create BracketMatch component in src/presentation/components/knockout/BracketMatch.tsx for single knockout match
+- [X] T051 [US1] Create KnockoutStage component in src/presentation/components/knockout/KnockoutStage.tsx orchestrating quarterfinals/semis/finals
+- [X] T052 [US1] Create TournamentPage in src/presentation/pages/TournamentPage.tsx integrating SwissStage, KnockoutStage, TeamList, and DrawSelector
+- [X] T053 [US1] Wire TournamentPage into App.tsx routing
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - users can load teams, simulate Swiss rounds automatically, view qualified/eliminated teams, and simulate knockout bracket to determine champion
 
