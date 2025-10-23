@@ -29,20 +29,20 @@ description: "Task list for League of Legends Worlds Tournament Simulator"
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Initialize Vite React TypeScript project using `npm create vite@latest . -- --template react-ts`
-- [ ] T002 [P] Install core dependencies: `npm install @dnd-kit/core @dnd-kit/utilities`
-- [ ] T003 [P] Install Tailwind CSS: `npm install -D tailwindcss postcss autoprefixer && npx tailwindcss init -p`
-- [ ] T004 [P] Install testing dependencies: `npm install -D vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event @playwright/test`
-- [ ] T005 Configure Tailwind in tailwind.config.js with dark mode class strategy and custom theme colors
-- [ ] T006 Configure Vitest in vite.config.ts with jsdom environment and coverage settings
-- [ ] T007 Create Clean Architecture directory structure: `src/domain/`, `src/application/`, `src/infrastructure/`, `src/presentation/`
-- [ ] T008 Create subdirectories per plan.md structure (entities, services, rules, usecases, hooks, persistence, loaders, components, pages, contexts)
-- [ ] T009 Create public/teams.json with 16 League of Legends teams (4 LCK, 4 LPL, 2 LCP, 3 LEC, 3 LCS)
-- [ ] T010 [P] Copy type definitions from specs/001-worlds-simulator/contracts/types.ts to src/domain/entities/types.ts
-- [ ] T011 [P] Copy service interfaces from specs/001-worlds-simulator/contracts/interfaces.ts to src/domain/services/interfaces.ts
-- [ ] T012 Create src/index.css with Tailwind directives and CSS custom properties for light/dark themes
-- [ ] T013 Update index.html with inline theme script to prevent FOUC (flash of unstyled content)
-- [ ] T014 Create src/test/setup.ts with Testing Library configuration and global test setup
+- [X] T001 Initialize Vite React TypeScript project using `npm create vite@latest . -- --template react-ts`
+- [X] T002 [P] Install core dependencies: `npm install @dnd-kit/core @dnd-kit/utilities`
+- [X] T003 [P] Install Tailwind CSS: `npm install -D tailwindcss postcss autoprefixer && npx tailwindcss init -p`
+- [X] T004 [P] Install testing dependencies: `npm install -D vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event @playwright/test`
+- [X] T005 Configure Tailwind in tailwind.config.js with dark mode class strategy and custom theme colors
+- [X] T006 Configure Vitest in vite.config.ts with jsdom environment and coverage settings
+- [X] T007 Create Clean Architecture directory structure: `src/domain/`, `src/application/`, `src/infrastructure/`, `src/presentation/`
+- [X] T008 Create subdirectories per plan.md structure (entities, services, rules, usecases, hooks, persistence, loaders, components, pages, contexts)
+- [X] T009 Create public/teams.json with 16 League of Legends teams (4 LCK, 4 LPL, 2 LCP, 3 LEC, 3 LCS)
+- [X] T010 [P] Copy type definitions from specs/001-worlds-simulator/contracts/types.ts to src/domain/entities/types.ts
+- [X] T011 [P] Copy service interfaces from specs/001-worlds-simulator/contracts/interfaces.ts to src/domain/services/interfaces.ts
+- [X] T012 Create src/index.css with Tailwind directives and CSS custom properties for light/dark themes
+- [X] T013 Update index.html with inline theme script to prevent FOUC (flash of unstyled content)
+- [X] T014 Create src/test/setup.ts with Testing Library configuration and global test setup
 
 ---
 
