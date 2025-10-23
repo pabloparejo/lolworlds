@@ -1,4 +1,5 @@
-import type { Team, TeamStatus } from ../entities/types';
+import type { Team } from '../entities/types';
+import { TeamStatus } from '../entities/types';
 
 /**
  * Check if a team has qualified (reached 3 wins)

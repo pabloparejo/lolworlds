@@ -1,5 +1,5 @@
-import type { TournamentState } from ../../domain/entities/types';
-import { TOURNAMENT_STATE_VERSION } from ../../domain/entities/types';
+import type { TournamentState } from 'domain/entities/types';
+import { TOURNAMENT_STATE_VERSION } from 'domain/entities/types';
 import { ITournamentRepository } from '../../domain/services/interfaces';
 
 const STORAGE_KEY = 'worlds-simulator-tournament-state';

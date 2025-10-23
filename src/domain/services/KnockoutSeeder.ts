@@ -1,5 +1,6 @@
 import { IKnockoutSeeder } from './interfaces';
-import type { Team, Match, KnockoutRound, StageType } from ../entities/types';
+import type { Team, Match } from '../entities/types';
+import { KnockoutRound, StageType } from '../entities/types';
 import { createMatch } from '../entities/Match';
 
 /**

@@ -1,5 +1,5 @@
-import type { TournamentState, StageType, Team, Match } from ../../domain/entities/types';
-import { DrawAlgorithm } from ../../domain/entities/types';
+import type { TournamentState, StageType, Team, Match } from 'domain/entities/types';
+import { DrawAlgorithm } from 'domain/entities/types';
 import { updateTournamentState, getTeamById, updateTeams, addMatches, addRound } from '../../domain/entities/TournamentState';
 import { updateTeamRecord, getActiveTeams, getQualifiedTeams } from '../../domain/entities/Team';
 import { resolveMatch, isMatchResolved } from '../../domain/entities/Match';

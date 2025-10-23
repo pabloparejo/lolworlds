@@ -1,5 +1,5 @@
-import type { TournamentState } from ../../domain/entities/types';
-import { DrawAlgorithm } from ../../domain/entities/types';
+import type { TournamentState } from 'domain/entities/types';
+import { DrawAlgorithm } from 'domain/entities/types';
 import { LocalStorageAdapter } from '../../infrastructure/persistence/LocalStorageAdapter';
 import { LoadTournament } from './LoadTournament';
 

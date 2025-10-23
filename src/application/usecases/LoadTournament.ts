@@ -1,5 +1,5 @@
-import type { TournamentState } from ../../domain/entities/types';
-import { DrawAlgorithm } from ../../domain/entities/types';
+import type { TournamentState } from 'domain/entities/types';
+import { DrawAlgorithm } from 'domain/entities/types';
 import { createInitialState } from '../../domain/entities/TournamentState';
 import { TeamDataLoader } from '../../infrastructure/loaders/TeamDataLoader';
 

@@ -1,5 +1,6 @@
 import { ISwissMatchmaker } from './interfaces';
-import type { Team, Match, MatchHistory, StageType } from ../entities/types';
+import type { Team, Match, MatchHistory } from '../entities/types';
+import { StageType } from '../entities/types';
 import { createMatch } from '../entities/Match';
 import { getTeamsByRecord } from '../entities/Team';
 import { canPairTeams, haveTeamsMet } from '../rules/pairing-constraints';

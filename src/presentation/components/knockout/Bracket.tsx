@@ -1,4 +1,4 @@
-import type { Match, Team, KnockoutRound } from ../../../domain/entities/types';
+import type { Match, Team, KnockoutRound } from 'domain/entities/types';
 import { BracketMatch } from './BracketMatch';
 
 interface BracketProps {

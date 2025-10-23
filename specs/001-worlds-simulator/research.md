@@ -129,7 +129,7 @@ src/
    - Use cases: `SimulateRound`, `SelectWinner`, `SwapTeams`, etc.
    - Custom hooks: `useTournament`, `useTeams`, `useMatches`
 
-3. **Infrastructure layer** implements interfaces from domain
+3. **Infrastructure layer** implements interfaces from 'domain
    - `LocalStorageAdapter` implements `PersistencePort`
    - `TeamDataLoader` implements `TeamLoaderPort`
 

@@ -1,4 +1,4 @@
-import type { Team, MatchHistory } from ../entities/types';
+import type { Team, MatchHistory } from '../entities/types';
 
 /**
  * Check if two teams have played against each other before
