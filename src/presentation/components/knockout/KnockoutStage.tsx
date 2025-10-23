@@ -1,4 +1,4 @@
-import { TournamentState, StageType } from '../../../domain/entities/types';
+import type { TournamentState, StageType } from ../../../domain/entities/types';
 import { Bracket } from './Bracket';
 
 interface KnockoutStageProps {

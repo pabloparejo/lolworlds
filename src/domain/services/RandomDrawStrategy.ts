@@ -1,5 +1,5 @@
-import { IDrawStrategy, SimulationResult } from './interfaces';
-import { Team, Match } from '../entities/types';
+import type { Team, Match } from '../entities/types';
+import type { IDrawStrategy, SimulationResult } from './interfaces';
 
 /**
  * Random draw strategy - 50/50 chance for each team

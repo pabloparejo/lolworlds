@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { TournamentState, DrawAlgorithm } from '../../domain/entities/types';
+import type { TournamentState } from ../../domain/entities/types';
+import { DrawAlgorithm } from ../../domain/entities/types';
 import { LoadTournament } from '../usecases/LoadTournament';
 import { SimulateRound } from '../usecases/SimulateRound';
 import { ResetTournament } from '../usecases/ResetTournament';

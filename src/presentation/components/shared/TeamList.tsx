@@ -1,4 +1,4 @@
-import { Team } from '../../../domain/entities/types';
+import type { Team } from ../../../domain/entities/types';
 import { TeamCard } from '../swiss/TeamCard';
 
 interface TeamListProps {

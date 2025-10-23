@@ -1,4 +1,4 @@
-import { DrawAlgorithm } from '../../../domain/entities/types';
+import { DrawAlgorithm } from ../../../domain/entities/types';
 
 interface DrawSelectorProps {
   algorithm: DrawAlgorithm;

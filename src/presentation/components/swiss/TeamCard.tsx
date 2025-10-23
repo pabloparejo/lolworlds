@@ -1,5 +1,5 @@
-import { Team } from '../../../domain/entities/types';
-import { getTeamRecord } from '../../../domain/entities/Team';
+import type { Team } from '/domain/entities/types';
+import { getTeamRecord } from '/domain/entities/Team';
 
 interface TeamCardProps {
   team: Team;
