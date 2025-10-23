@@ -1,5 +1,7 @@
-export type Theme = 'light' | 'dark' | 'auto';
-export type EffectiveTheme = 'light' | 'dark';
+import type { Theme, EffectiveTheme } from './types';
+
+// Re-export types for convenience
+export type { Theme, EffectiveTheme } from './types';
 
 const STORAGE_KEY = 'worlds-simulator-theme';
 
