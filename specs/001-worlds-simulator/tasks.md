@@ -91,11 +91,11 @@ description: "Task list for League of Legends Worlds Tournament Simulator"
 
 ### Application Layer for User Story 1
 
-- [ ] T038 [US1] Implement LoadTournament use case in src/application/usecases/LoadTournament.ts to initialize tournament from TeamData array
-- [ ] T039 [US1] Implement SimulateRound use case in src/application/usecases/SimulateRound.ts to simulate all matches in a round
-- [ ] T040 [US1] Implement ResetTournament use case in src/application/usecases/ResetTournament.ts to clear state and reload teams
-- [ ] T041 [US1] Create useTournament custom hook in src/application/hooks/useTournament.ts integrating all tournament operations
-- [ ] T042 [US1] Create TournamentContext in src/presentation/contexts/TournamentContext.tsx wrapping useTournament
+- [X] T038 [US1] Implement LoadTournament use case in src/application/usecases/LoadTournament.ts to initialize tournament from TeamData array
+- [X] T039 [US1] Implement SimulateRound use case in src/application/usecases/SimulateRound.ts to simulate all matches in a round
+- [X] T040 [US1] Implement ResetTournament use case in src/application/usecases/ResetTournament.ts to clear state and reload teams
+- [X] T041 [US1] Create useTournament custom hook in src/application/hooks/useTournament.ts integrating all tournament operations
+- [X] T042 [US1] Create TournamentContext in src/presentation/contexts/TournamentContext.tsx wrapping useTournament
 
 ### Presentation Layer for User Story 1
 
