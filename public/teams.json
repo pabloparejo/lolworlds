@@ -1,0 +1,68 @@
+{
+  "teams": [
+    {
+      "name": "T1",
+      "region": "LCK"
+    },
+    {
+      "name": "Gen.G",
+      "region": "LCK"
+    },
+    {
+      "name": "KT Rolster",
+      "region": "LCK"
+    },
+    {
+      "name": "Hanwha Life Esports",
+      "region": "LCK"
+    },
+    {
+      "name": "JD Gaming",
+      "region": "LPL"
+    },
+    {
+      "name": "Bilibili Gaming",
+      "region": "LPL"
+    },
+    {
+      "name": "Weibo Gaming",
+      "region": "LPL"
+    },
+    {
+      "name": "LNG Esports",
+      "region": "LPL"
+    },
+    {
+      "name": "G2 Esports",
+      "region": "LEC"
+    },
+    {
+      "name": "MAD Lions",
+      "region": "LEC"
+    },
+    {
+      "name": "Fnatic",
+      "region": "LEC"
+    },
+    {
+      "name": "Cloud9",
+      "region": "LCS"
+    },
+    {
+      "name": "Team Liquid",
+      "region": "LCS"
+    },
+    {
+      "name": "GAM Esports",
+      "region": "LCP"
+    },
+    {
+      "name": "PSG Talon",
+      "region": "LCP"
+    },
+    {
+      "name": "DRX",
+      "region": "LCP"
+    }
+  ]
+}
