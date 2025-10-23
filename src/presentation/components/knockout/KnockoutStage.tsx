@@ -18,17 +18,6 @@ export function KnockoutStage({ state, onTeamClick, onSimulateRound }: KnockoutS
   const hasStarted = knockoutStage.status !== 'NOT_STARTED';
   const canStart = state.swissStage.status === 'COMPLETED';
 
-  // Debug logging
-  console.log('KnockoutStage render:', {
-    swissStageStatus: state.swissStage.status,
-    knockoutStageStatus: knockoutStage.status,
-    canStart,
-    isComplete,
-    hasStarted,
-    hasOnSimulateRound: !!onSimulateRound,
-    shouldShowButton: onSimulateRound && canStart && !isComplete,
-  });
-
   // Get champion (winner of finals)
   const finalsMatch = knockoutMatches.find(m => m.knockoutRound === 'FINALS');
   const champion = finalsMatch?.winnerId
