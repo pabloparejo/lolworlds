@@ -23,6 +23,11 @@ Follow-up TODOs: None
 
 # Worlds Project Constitution
 
+## Development server
+Do not run the server, it'll be running already in the terminal.
+
+Ask for any server output if you need it
+
 ## Core Principles
 
 ### I. Clean Architecture & SOLID Principles

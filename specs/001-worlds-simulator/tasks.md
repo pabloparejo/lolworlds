@@ -79,15 +79,15 @@ description: "Task list for League of Legends Worlds Tournament Simulator"
 
 ### Domain Layer for User Story 1
 
-- [ ] T029 [P] [US1] Create Team entity helper functions in src/domain/entities/Team.ts (getTeamRecord, updateTeamRecord, getTeamsByStatus)
-- [ ] T030 [P] [US1] Create Match entity helper functions in src/domain/entities/Match.ts (createMatch, resolveMatch, isMatchResolved)
-- [ ] T031 [P] [US1] Create Round entity helper functions in src/domain/entities/Round.ts (createRound, isRoundComplete)
-- [ ] T032 [P] [US1] Create Stage entity helper functions in src/domain/entities/Stage.ts (createSwissStage, createKnockoutStage, isStageComplete)
-- [ ] T033 [P] [US1] Create TournamentState entity helpers in src/domain/entities/TournamentState.ts (createInitialState, updateTournamentState)
-- [ ] T034 [US1] Implement RandomDrawStrategy in src/domain/services/RandomDraw.ts with calculateWinProbability (always 0.5) and simulateMatch
-- [ ] T035 [US1] Implement BiasedDrawStrategy in src/domain/services/BiasedDraw.ts using regional strength formula from types.ts
-- [ ] T036 [US1] Implement SwissMatchmaker in src/domain/services/SwissMatchmaker.ts with createMatches and canPairTeams methods
-- [ ] T037 [US1] Implement KnockoutSeeder in src/domain/services/KnockoutSeeder.ts with seedBracket method (3-0 vs 3-2, 3-1 vs 3-1/3-2 logic)
+- [X] T029 [P] [US1] Create Team entity helper functions in src/domain/entities/Team.ts (getTeamRecord, updateTeamRecord, getTeamsByStatus)
+- [X] T030 [P] [US1] Create Match entity helper functions in src/domain/entities/Match.ts (createMatch, resolveMatch, isMatchResolved)
+- [X] T031 [P] [US1] Create Round entity helper functions in src/domain/entities/Round.ts (createRound, isRoundComplete)
+- [X] T032 [P] [US1] Create Stage entity helper functions in src/domain/entities/Stage.ts (createSwissStage, createKnockoutStage, isStageComplete)
+- [X] T033 [P] [US1] Create TournamentState entity helpers in src/domain/entities/TournamentState.ts (createInitialState, updateTournamentState)
+- [X] T034 [US1] Implement RandomDrawStrategy in src/domain/services/RandomDrawStrategy.ts with calculateWinProbability (always 0.5) and simulateMatch
+- [X] T035 [US1] Implement BiasedDrawStrategy in src/domain/services/BiasedDrawStrategy.ts using regional strength formula from types.ts
+- [X] T036 [US1] Implement SwissMatchmaker in src/domain/services/SwissMatchmaker.ts with createMatches and canPairTeams methods
+- [X] T037 [US1] Implement KnockoutSeeder in src/domain/services/KnockoutSeeder.ts with seedBracket method (3-0 vs 3-2, 3-1 vs 3-1/3-2 logic)
 
 ### Application Layer for User Story 1
 
