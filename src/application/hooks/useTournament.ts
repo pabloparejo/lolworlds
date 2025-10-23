@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { TournamentState } from 'domain/entities/types';
 import { DrawAlgorithm } from 'domain/entities/types';
-import { LoadTournament } from '../usecases/LoadTournament';
-import { SimulateRound } from '../usecases/SimulateRound';
-import { ResetTournament } from '../usecases/ResetTournament';
-import { LocalStorageAdapter } from '../../infrastructure/persistence/LocalStorageAdapter';
+import { LoadTournament } from 'application/usecases/LoadTournament';
+import { SimulateRound } from 'application/usecases/SimulateRound';
+import { ResetTournament } from 'application/usecases/ResetTournament';
+import { LocalStorageAdapter } from 'infrastructure/persistence/LocalStorageAdapter';
 
 const loadTournamentUseCase = new LoadTournament();
 const simulateRoundUseCase = new SimulateRound();

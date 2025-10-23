@@ -1,9 +1,9 @@
-import { useTournamentContext } from '../contexts/TournamentContext';
-import { SwissStage } from '../components/swiss/SwissStage';
-import { KnockoutStage } from '../components/knockout/KnockoutStage';
-import { TeamList } from '../components/shared/TeamList';
-import { DrawSelector } from '../components/shared/DrawSelector';
-import { getQualifiedTeams, getEliminatedTeams } from '../../domain/entities/Team';
+import { useTournamentContext } from 'presentation/contexts/TournamentContext';
+import { SwissStage } from 'presentation/components/swiss/SwissStage';
+import { KnockoutStage } from 'presentation/components/knockout/KnockoutStage';
+import { TeamList } from 'presentation/components/shared/TeamList';
+import { DrawSelector } from 'presentation/components/shared/DrawSelector';
+import { getQualifiedTeams, getEliminatedTeams } from 'domain/entities/Team';
 
 export function TournamentPage() {
   const { state, isLoading, error, simulateRound, resetTournament, setDrawAlgorithm } = useTournamentContext();

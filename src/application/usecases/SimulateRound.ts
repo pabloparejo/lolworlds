@@ -1,16 +1,22 @@
-import type { TournamentState, StageType, Team, Match } from 'domain/entities/types';
-import { DrawAlgorithm } from 'domain/entities/types';
-import { updateTournamentState, getTeamById, updateTeams, addMatches, addRound } from '../../domain/entities/TournamentState';
-import { updateTeamRecord, getActiveTeams, getQualifiedTeams } from '../../domain/entities/Team';
-import { resolveMatch, isMatchResolved } from '../../domain/entities/Match';
-import { createRound } from '../../domain/entities/Round';
-import { startStage, addRoundToStage, completeStage } from '../../domain/entities/Stage';
-import { addMatchToHistory } from '../../domain/rules/pairing-constraints';
-import { RandomDrawStrategy } from '../../domain/services/RandomDrawStrategy';
-import { BiasedDrawStrategy } from '../../domain/services/BiasedDrawStrategy';
-import { SwissMatchmaker } from '../../domain/services/SwissMatchmaker';
-import { KnockoutSeeder } from '../../domain/services/KnockoutSeeder';
-import { IDrawStrategy } from '../../domain/services/interfaces';
+import type { TournamentState, Team, Match } from 'domain/entities/types';
+import { DrawAlgorithm, StageType } from 'domain/entities/types';
+import {
+  updateTournamentState,
+  getTeamById,
+  updateTeams,
+  addMatches,
+  addRound,
+} from 'domain/entities/TournamentState';
+import { updateTeamRecord, getActiveTeams, getQualifiedTeams } from 'domain/entities/Team';
+import { resolveMatch, isMatchResolved } from 'domain/entities/Match';
+import { createRound } from 'domain/entities/Round';
+import { startStage, addRoundToStage, completeStage } from 'domain/entities/Stage';
+import { addMatchToHistory } from 'domain/rules/pairing-constraints';
+import { RandomDrawStrategy } from 'domain/services/RandomDrawStrategy';
+import { BiasedDrawStrategy } from 'domain/services/BiasedDrawStrategy';
+import { SwissMatchmaker } from 'domain/services/SwissMatchmaker';
+import { KnockoutSeeder } from 'domain/services/KnockoutSeeder';
+import type { IDrawStrategy } from 'domain/services/interfaces';
 
 /**
  * Simulate round use case

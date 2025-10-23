@@ -1,6 +1,6 @@
-import { IDrawStrategy, SimulationResult } from './interfaces';
-import type { Team, Match } from '../entities/types';
-import { REGIONAL_STRENGTHS } from '../entities/types';
+import type { IDrawStrategy, SimulationResult } from './interfaces';
+import type { Team, Match } from 'domain/entities/types';
+import { REGIONAL_STRENGTHS } from 'domain/entities/types';
 
 /**
  * Biased draw strategy - uses regional strength formula

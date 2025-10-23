@@ -1,4 +1,4 @@
-import { ThemeToggle } from '../shared/ThemeToggle';
+import { ThemeToggle } from 'presentation/components/shared/ThemeToggle';
 
 export function Header() {
   return (

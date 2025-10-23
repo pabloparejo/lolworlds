@@ -1,5 +1,5 @@
-import type { Team } from '../../domain/entities/types';
-import { Region, TeamStatus } from '../../domain/entities/types';
+import type { Team } from 'domain/entities/types';
+import { Region, TeamStatus } from 'domain/entities/types';
 import { v4 as uuidv4 } from 'uuid';
 
 interface TeamData {

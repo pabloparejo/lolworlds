@@ -1,4 +1,5 @@
-import type { TournamentState, StageType } from 'domain/entities/types';
+import type { TournamentState } from 'domain/entities/types';
+import { StageType } from 'domain/entities/types';
 import { RecordBracket } from './RecordBracket';
 
 interface SwissStageProps {

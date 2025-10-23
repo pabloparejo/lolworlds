@@ -1,5 +1,5 @@
 import type { Match, Team } from 'domain/entities/types';
-import { TeamCard } from '../swiss/TeamCard';
+import { TeamCard } from 'presentation/components/swiss/TeamCard';
 
 interface BracketMatchProps {
   match: Match;

@@ -1,4 +1,4 @@
-import type { Team, Match } from '../entities/types';
+import type { Team, Match } from 'domain/entities/types';
 import type { IDrawStrategy, SimulationResult } from './interfaces';
 
 /**

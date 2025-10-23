@@ -15,8 +15,8 @@ import type {
   TeamData,
   SimulationResult,
   ValidationResult,
-} from '../entities/types';
-import { DrawAlgorithm } from '../entities/types';
+} from 'domain/entities/types';
+import { DrawAlgorithm } from 'domain/entities/types';
 
 // ============================================================================
 // Domain Service Interfaces

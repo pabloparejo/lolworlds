@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import type { Theme, EffectiveTheme } from '../../infrastructure/theme/types';
-import { themeManager } from '../../infrastructure/theme/ThemeManager';
+import type { Theme, EffectiveTheme } from 'infrastructure/theme/types';
+import { themeManager } from 'infrastructure/theme/ThemeManager';
 
 interface ThemeContextValue {
   theme: Theme;

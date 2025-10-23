@@ -1,5 +1,6 @@
 import { createContext, useContext, ReactNode } from 'react';
-import { useTournament, UseTournamentReturn } from '../../application/hooks/useTournament';
+import { useTournament } from 'application/hooks/useTournament';
+import type { UseTournamentReturn } from 'application/hooks/useTournament';
 
 const TournamentContext = createContext<UseTournamentReturn | undefined>(undefined);
 

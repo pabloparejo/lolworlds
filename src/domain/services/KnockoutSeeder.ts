@@ -1,7 +1,7 @@
-import { IKnockoutSeeder } from './interfaces';
-import type { Team, Match } from '../entities/types';
-import { KnockoutRound, StageType } from '../entities/types';
-import { createMatch } from '../entities/Match';
+import type { IKnockoutSeeder } from './interfaces';
+import type { Team, Match } from 'domain/entities/types';
+import { KnockoutRound, StageType } from 'domain/entities/types';
+import { createMatch } from 'domain/entities/Match';
 
 /**
  * Knockout Seeder - seeds qualified teams into knockout bracket

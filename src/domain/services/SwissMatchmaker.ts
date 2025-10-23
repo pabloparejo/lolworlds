@@ -1,9 +1,9 @@
-import { ISwissMatchmaker } from './interfaces';
-import type { Team, Match, MatchHistory } from '../entities/types';
-import { StageType } from '../entities/types';
-import { createMatch } from '../entities/Match';
-import { getTeamsByRecord } from '../entities/Team';
-import { canPairTeams, haveTeamsMet } from '../rules/pairing-constraints';
+import type { ISwissMatchmaker } from './interfaces';
+import type { Team, Match, MatchHistory } from 'domain/entities/types';
+import { StageType } from 'domain/entities/types';
+import { createMatch } from 'domain/entities/Match';
+import { getTeamsByRecord } from 'domain/entities/Team';
+import { canPairTeams, haveTeamsMet } from 'domain/rules/pairing-constraints';
 
 /**
  * Swiss Matchmaker - creates pairings for Swiss stage rounds
@@ -88,7 +88,7 @@ export class SwissMatchmaker implements ISwissMatchmaker {
 
   /**
    * Pair teams within a single record bracket
-   * Uses greedy algorithm with backtracking if needed
+   * Uses greedy algorithm with shuffling and retries
    */
   private pairTeamsInBracket(
     teams: Team[],
@@ -104,15 +104,24 @@ export class SwissMatchmaker implements ISwissMatchmaker {
       return null;
     }
 
-    // Try greedy pairing first
-    const matches = this.greedyPairing(teams, roundNumber, recordBracket, matchHistory);
+    // Try up to 10 different shuffles to find valid pairing
+    const maxAttempts = 10;
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      const shuffledTeams = this.shuffleArray([...teams]);
+      const matches = this.greedyPairing(
+        shuffledTeams,
+        roundNumber,
+        recordBracket,
+        matchHistory
+      );
 
-    if (matches) {
-      return matches;
+      if (matches) {
+        return matches;
+      }
     }
 
-    // If greedy fails, try backtracking (for more complex scenarios)
-    return this.backtrackPairing(teams, roundNumber, recordBracket, matchHistory);
+    // All attempts failed
+    return null;
   }
 
   /**
@@ -155,18 +164,14 @@ export class SwissMatchmaker implements ISwissMatchmaker {
   }
 
   /**
-   * Backtracking pairing algorithm (fallback for complex scenarios)
-   * This is a simplified version - full backtracking can be added if needed
+   * Shuffle an array using Fisher-Yates algorithm
    */
-  private backtrackPairing(
-    teams: Team[],
-    roundNumber: number,
-    recordBracket: string,
-    matchHistory: ReadonlyArray<MatchHistory>
-  ): Match[] | null {
-    // For now, return null if greedy fails
-    // A full backtracking implementation can be added later if needed
-    console.warn('Backtracking pairing not implemented, pairing failed');
-    return null;
+  private shuffleArray<T>(array: T[]): T[] {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
   }
 }
