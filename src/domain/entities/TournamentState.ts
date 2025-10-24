@@ -19,6 +19,11 @@ export function createInitialState(teams: Team[], drawAlgorithm: DrawAlgorithm =
     knockoutStage: createKnockoutStage(),
     drawAlgorithm,
     matchHistory: [],
+    seedingConfig: undefined,
+    baselineRounds: [],
+    lockedMatches: {},
+    roundMetadata: {},
+    knockoutBracket: null,
   };
 }
 

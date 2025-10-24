@@ -14,7 +14,12 @@ export function MatchCard({ match, team1, team2, onTeamClick, onVsClick }: Match
   const isLocked = match.locked;
 
   return (
-    <div className="flex flex-col gap-2 p-4 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-background))]">
+    <div
+      className="flex flex-col gap-2 p-4 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-background))]"
+      role="group"
+      aria-label={`${team1.name} vs ${team2.name}`}
+      tabIndex={0}
+    >
       <TeamCard
         team={team1}
         isWinner={match.winnerId === team1.id}

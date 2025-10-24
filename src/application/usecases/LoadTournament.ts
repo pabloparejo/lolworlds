@@ -2,6 +2,7 @@ import type { TournamentState } from 'domain/entities/types';
 import { DrawAlgorithm } from 'domain/entities/types';
 import { createInitialState } from 'domain/entities/TournamentState';
 import { TeamDataLoader } from 'infrastructure/loaders/TeamDataLoader';
+import { PrepareSwissRound } from './PrepareSwissRound';
 
 /**
  * Load tournament use case
@@ -23,7 +24,16 @@ export class LoadTournament {
 
     // Create initial tournament state
     const initialState = createInitialState(teams, drawAlgorithm);
+    const config = TeamDataLoader.getLastLoadedConfig();
 
-    return initialState;
+    if (config) {
+      initialState.seedingConfig = config;
+      initialState.baselineRounds = config.baselineRounds;
+    }
+
+    const prepareSwissRound = new PrepareSwissRound();
+    const preparedState = prepareSwissRound.execute(initialState);
+
+    return preparedState;
   }
 }

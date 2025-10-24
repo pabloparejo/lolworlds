@@ -1,3 +1,7 @@
+import type { BaselineRound, SeedingConfig, TierName } from './SeedingConfig';
+import type { KnockoutBracket } from './KnockoutBracket';
+import type { RoundSource } from './RoundDefinition';
+
 /**
  * Core Type Definitions
  * League of Legends Worlds Tournament Simulator
@@ -204,6 +208,21 @@ export interface TournamentState {
 
   /** Past matchups for no-repeat rule enforcement */
   matchHistory: MatchHistory[];
+
+  /** Persisted seeding configuration snapshot */
+  seedingConfig?: SeedingConfig;
+
+  /** Baseline rounds derived from JSON configuration */
+  baselineRounds?: BaselineRound[];
+
+  /** Map of match ID -> locked winner ID */
+  lockedMatches?: Record<string, string>;
+
+  /** Metadata per round for provenance/locking tracking */
+  roundMetadata?: Record<string, { source: RoundSource; lockedMatchIds?: string[] }>;
+
+  /** Generated knockout bracket (read-only) */
+  knockoutBracket?: KnockoutBracket | null;
 }
 
 // ============================================================================
@@ -279,11 +298,20 @@ export type ValidationResult =
  * Team JSON structure loaded from teams.json file
  */
 export interface TeamData {
+  /** Optional external identifier (UUID or slug) */
+  id?: string;
+
   /** Team display name */
   name: string;
 
   /** Competitive region */
   region: Region;
+
+  /** Optional regional seed (#1-#3) */
+  seed?: number;
+
+  /** Optional tier assignment for Swiss round one */
+  tier?: TierName;
 }
 
 /**
@@ -408,7 +436,7 @@ export function haveTeamsMet(
  * Current schema version for tournament state
  * Update when making breaking changes to TournamentState structure
  */
-export const TOURNAMENT_STATE_VERSION = '1.0.0';
+export const TOURNAMENT_STATE_VERSION = '1.1.0';
 
 /**
  * localStorage key for persisting tournament state

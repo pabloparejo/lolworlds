@@ -3,20 +3,19 @@ import { DrawAlgorithm, StageType } from 'domain/entities/types';
 import {
   updateTournamentState,
   getTeamById,
-  updateTeams,
   addMatches,
   addRound,
 } from 'domain/entities/TournamentState';
 import { updateTeamRecord, getActiveTeams, getQualifiedTeams } from 'domain/entities/Team';
-import { resolveMatch, isMatchResolved } from 'domain/entities/Match';
+import { resolveMatch, isMatchResolved, lockMatch } from 'domain/entities/Match';
 import { createRound } from 'domain/entities/Round';
 import { startStage, addRoundToStage, completeStage } from 'domain/entities/Stage';
 import { addMatchToHistory } from 'domain/rules/pairing-constraints';
 import { RandomDrawStrategy } from 'domain/services/RandomDrawStrategy';
 import { BiasedDrawStrategy } from 'domain/services/BiasedDrawStrategy';
-import { SwissMatchmaker } from 'domain/services/SwissMatchmaker';
 import { KnockoutSeeder } from 'domain/services/KnockoutSeeder';
 import type { IDrawStrategy } from 'domain/services/interfaces';
+import { PrepareSwissRound } from './PrepareSwissRound';
 
 /**
  * Simulate round use case
@@ -25,14 +24,14 @@ import type { IDrawStrategy } from 'domain/services/interfaces';
 export class SimulateRound {
   private randomStrategy: RandomDrawStrategy;
   private biasedStrategy: BiasedDrawStrategy;
-  private swissMatchmaker: SwissMatchmaker;
   private knockoutSeeder: KnockoutSeeder;
+  private prepareSwissRound: PrepareSwissRound;
 
   constructor() {
     this.randomStrategy = new RandomDrawStrategy();
     this.biasedStrategy = new BiasedDrawStrategy();
-    this.swissMatchmaker = new SwissMatchmaker();
     this.knockoutSeeder = new KnockoutSeeder();
+    this.prepareSwissRound = new PrepareSwissRound();
   }
 
   /**
@@ -59,91 +58,107 @@ export class SimulateRound {
   private simulateSwissRound(state: TournamentState): TournamentState {
     let updatedState = { ...state };
 
-    // Start stage if not started
+    updatedState = this.prepareSwissRound.execute(updatedState);
+
     if (updatedState.swissStage.status === 'NOT_STARTED') {
       updatedState = updateTournamentState(updatedState, {
         swissStage: startStage(updatedState.swissStage),
       });
     }
 
-    const activeTeams = getActiveTeams(updatedState.teams);
+    const currentRoundNumber = updatedState.swissStage.currentRoundNumber ?? 0;
+    if (currentRoundNumber === 0) {
+      return updatedState;
+    }
 
-    if (activeTeams.length === 0) {
-      // Swiss stage complete
+    const matchesToResolve = updatedState.matches.filter(
+      match =>
+        match.stage === StageType.SWISS &&
+        match.roundNumber === currentRoundNumber &&
+        match.winnerId === null
+    );
+
+    if (matchesToResolve.length === 0) {
+      // Nothing pending; ensure next round is prepared and exit
+      const preparedState = this.prepareSwissRound.execute(updatedState);
+      return preparedState;
+    }
+
+    const strategy = this.getDrawStrategy(updatedState.drawAlgorithm);
+    const updatedTeams: Team[] = [];
+    const resolvedMatches: Match[] = [];
+    const lockedMatches = { ...(updatedState.lockedMatches ?? {}) };
+    let matchHistory = [...updatedState.matchHistory];
+
+    matchesToResolve.forEach(match => {
+      const team1 = getTeamById(updatedState, match.team1Id);
+      const team2 = getTeamById(updatedState, match.team2Id);
+
+      if (!team1 || !team2) {
+        throw new Error('Team not found for pending match');
+      }
+
+      const lockedWinnerId = lockedMatches[match.id];
+      let winnerId: string;
+
+      if (lockedWinnerId) {
+        if (lockedWinnerId !== team1.id && lockedWinnerId !== team2.id) {
+          throw new Error(`Locked winner ${lockedWinnerId} is not part of match ${match.id}`);
+        }
+        winnerId = lockedWinnerId;
+        delete lockedMatches[match.id];
+      } else {
+        const result = strategy.simulateMatch(match, team1, team2);
+        winnerId = result.winnerId;
+      }
+
+      const resolvedMatch = resolveMatch(match, winnerId);
+      resolvedMatches.push(lockedWinnerId ? lockMatch(resolvedMatch) : resolvedMatch);
+
+      const updatedTeam1 = updateTeamRecord(team1, winnerId === team1.id);
+      const updatedTeam2 = updateTeamRecord(team2, winnerId === team2.id);
+      updatedTeams.push(updatedTeam1, updatedTeam2);
+
+      matchHistory = addMatchToHistory(matchHistory, match.team1Id, match.team2Id);
+    });
+
+    const resolvedMatchMap = new Map(resolvedMatches.map(match => [match.id, match] as const));
+    const matches = updatedState.matches.map(match =>
+      resolvedMatchMap.get(match.id) ?? match
+    );
+
+    const teamUpdates = new Map(updatedTeams.map(team => [team.id, team] as const));
+    const teams = updatedState.teams.map(team => teamUpdates.get(team.id) ?? team);
+
+    const round = updatedState.rounds.find(r => r.roundNumber === currentRoundNumber);
+    const roundMetadata = { ...(updatedState.roundMetadata ?? {}) };
+
+    if (round && roundMetadata[round.id]) {
+      const metadata = roundMetadata[round.id];
+      const remainingLocked = (metadata.lockedMatchIds ?? []).filter(id => !resolvedMatchMap.has(id));
+      roundMetadata[round.id] = {
+        ...metadata,
+        lockedMatchIds: remainingLocked,
+      };
+    }
+
+    updatedState = updateTournamentState(updatedState, {
+      matches,
+      teams,
+      matchHistory,
+      lockedMatches,
+      roundMetadata,
+    });
+
+    const stillActive = getActiveTeams(updatedState.teams);
+    if (stillActive.length === 0 || currentRoundNumber >= 5) {
       updatedState = updateTournamentState(updatedState, {
         swissStage: completeStage(updatedState.swissStage),
       });
       return updatedState;
     }
 
-    // Create matches for this round
-    const roundNumber = updatedState.swissStage.currentRoundNumber + 1;
-    const matches = this.swissMatchmaker.createMatches(
-      activeTeams,
-      roundNumber,
-      updatedState.matchHistory
-    );
-
-    if (!matches) {
-      throw new Error('Failed to create Swiss pairings');
-    }
-
-    // Simulate all matches
-    const strategy = this.getDrawStrategy(updatedState.drawAlgorithm);
-    const updatedTeams: Team[] = [];
-    const resolvedMatches: Match[] = [];
-    let matchHistory = [...updatedState.matchHistory];
-
-    matches.forEach(match => {
-      const team1 = getTeamById(updatedState, match.team1Id);
-      const team2 = getTeamById(updatedState, match.team2Id);
-
-      if (!team1 || !team2) {
-        throw new Error('Team not found');
-      }
-
-      // Simulate match
-      const result = strategy.simulateMatch(match, team1, team2);
-
-      // Resolve match
-      const resolvedMatch = resolveMatch(match, result.winnerId);
-      resolvedMatches.push(resolvedMatch);
-
-      // Update team records
-      const updatedTeam1 = updateTeamRecord(team1, result.winnerId === team1.id);
-      const updatedTeam2 = updateTeamRecord(team2, result.winnerId === team2.id);
-
-      updatedTeams.push(updatedTeam1, updatedTeam2);
-
-      // Add to match history
-      matchHistory = addMatchToHistory(matchHistory, match.team1Id, match.team2Id);
-    });
-
-    // Create round
-    const round = createRound(
-      roundNumber,
-      resolvedMatches.map(m => m.id),
-      matches.map(m => m.recordBracket || '')
-    );
-
-    // Update state
-    updatedState = updateTeams(updatedState, updatedTeams);
-    updatedState = addMatches(updatedState, resolvedMatches);
-    updatedState = addRound(updatedState, round);
-    updatedState = updateTournamentState(updatedState, {
-      swissStage: addRoundToStage(updatedState.swissStage, round.id),
-      matchHistory,
-    });
-
-    // Check if Swiss stage is complete (all teams qualified or eliminated)
-    const stillActive = getActiveTeams(updatedState.teams);
-    if (stillActive.length === 0) {
-      updatedState = updateTournamentState(updatedState, {
-        swissStage: completeStage(updatedState.swissStage),
-      });
-    }
-
-    return updatedState;
+    return this.prepareSwissRound.execute(updatedState);
   }
 
   /**

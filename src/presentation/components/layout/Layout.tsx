@@ -9,7 +9,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-[rgb(var(--color-background))]">
       <Header />
-      <main className="flex-1 container mx-auto px-4 py-6">
+      <main className="flex-1 w-full">
         {children}
       </main>
       <footer className="border-t border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))]">

@@ -42,7 +42,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={handleToggle}
-      className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] hover:bg-[rgb(var(--color-accent))] transition-colors"
+      className="cursor-pointer flex items-center gap-2 px-2 py-1 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] hover:bg-[rgb(var(--color-accent))] transition-colors"
       aria-label={`Current theme: ${getThemeLabel()}. Click to change theme.`}
       title={`Current theme: ${getThemeLabel()}`}
     >

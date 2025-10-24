@@ -8,10 +8,10 @@ interface DrawSelectorProps {
 
 export function DrawSelector({ algorithm, onChange, disabled = false }: DrawSelectorProps) {
   return (
-    <div className="flex items-center gap-4 p-4 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))]">
-      <span className="font-medium text-[rgb(var(--color-foreground))]">
-        Draw Algorithm:
-      </span>
+    <div className="flex items-center gap-2 rounded-lg border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-2 py-1">
+      <p className="text-[rgb(var(--color-foreground))]">
+        Winning Chances:
+      </p>
 
       <div className="flex gap-2">
         <button
@@ -26,7 +26,7 @@ export function DrawSelector({ algorithm, onChange, disabled = false }: DrawSele
             ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           `}
         >
-          Random (50/50)
+          Even Odds (50/50)
         </button>
 
         <button
@@ -41,7 +41,7 @@ export function DrawSelector({ algorithm, onChange, disabled = false }: DrawSele
             ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           `}
         >
-          Biased (Regional Strength)
+          Regional Bias
         </button>
       </div>
 

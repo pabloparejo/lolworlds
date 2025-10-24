@@ -2,6 +2,7 @@ import type { TournamentState } from 'domain/entities/types';
 import { DrawAlgorithm } from 'domain/entities/types';
 import { LocalStorageAdapter } from 'infrastructure/persistence/LocalStorageAdapter';
 import { LoadTournament } from './LoadTournament';
+import { PrepareSwissRound } from './PrepareSwissRound';
 
 /**
  * Reset tournament use case
@@ -10,10 +11,12 @@ import { LoadTournament } from './LoadTournament';
 export class ResetTournament {
   private repository: LocalStorageAdapter;
   private loadTournament: LoadTournament;
+  private prepareSwissRound: PrepareSwissRound;
 
   constructor() {
     this.repository = new LocalStorageAdapter();
     this.loadTournament = new LoadTournament();
+    this.prepareSwissRound = new PrepareSwissRound();
   }
 
   /**
@@ -32,6 +35,6 @@ export class ResetTournament {
     // Load fresh tournament
     const freshState = await this.loadTournament.execute(teamsJsonPath, drawAlgorithm);
 
-    return freshState;
+    return this.prepareSwissRound.execute(freshState);
   }
 }

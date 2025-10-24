@@ -58,7 +58,14 @@ export class LocalStorageAdapter implements ITournamentRepository {
         return null;
       }
 
-      return state;
+      return {
+        ...state,
+        lockedMatches: state.lockedMatches ?? {},
+        roundMetadata: state.roundMetadata ?? {},
+        baselineRounds: state.baselineRounds ?? [],
+        seedingConfig: state.seedingConfig,
+        knockoutBracket: state.knockoutBracket ?? null,
+      };
     } catch (error) {
       if (error instanceof Error) {
         console.error('Failed to load tournament state:', error.message);

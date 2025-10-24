@@ -5,11 +5,15 @@ import { LoadTournament } from 'application/usecases/LoadTournament';
 import { SimulateRound } from 'application/usecases/SimulateRound';
 import { ResetTournament } from 'application/usecases/ResetTournament';
 import { LocalStorageAdapter } from 'infrastructure/persistence/LocalStorageAdapter';
+import { PrepareSwissRound } from 'application/usecases/PrepareSwissRound';
+import { LockMatchResult } from 'application/usecases/LockMatchResult';
 
 const loadTournamentUseCase = new LoadTournament();
 const simulateRoundUseCase = new SimulateRound();
 const resetTournamentUseCase = new ResetTournament();
 const repository = new LocalStorageAdapter();
+const prepareSwissRoundUseCase = new PrepareSwissRound();
+const lockMatchResultUseCase = new LockMatchResult();
 
 export interface UseTournamentReturn {
   state: TournamentState | null;
@@ -17,6 +21,7 @@ export interface UseTournamentReturn {
   error: string | null;
   loadTournament: (teamsPath?: string, algorithm?: DrawAlgorithm) => Promise<void>;
   simulateRound: () => void;
+  lockMatchResult: (matchId: string, winnerId: string | null) => void;
   resetTournament: (teamsPath?: string, algorithm?: DrawAlgorithm) => Promise<void>;
   setDrawAlgorithm: (algorithm: DrawAlgorithm) => void;
   saveTournament: () => void;
@@ -42,12 +47,15 @@ export function useTournament(): UseTournamentReturn {
         const savedState = repository.load();
 
         if (savedState) {
-          setState(savedState);
+          const preparedState = prepareSwissRoundUseCase.execute(savedState);
+          setState(preparedState);
+          repository.save(preparedState);
         } else {
           // Load fresh tournament
           const freshState = await loadTournamentUseCase.execute();
-          setState(freshState);
-          repository.save(freshState);
+          const preparedState = prepareSwissRoundUseCase.execute(freshState);
+          setState(preparedState);
+          repository.save(preparedState);
         }
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Failed to initialize tournament';
@@ -73,8 +81,9 @@ export function useTournament(): UseTournamentReturn {
       setError(null);
 
       const newState = await loadTournamentUseCase.execute(teamsPath, algorithm);
-      setState(newState);
-      repository.save(newState);
+      const preparedState = prepareSwissRoundUseCase.execute(newState);
+      setState(preparedState);
+      repository.save(preparedState);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load tournament';
       setError(message);
@@ -105,6 +114,24 @@ export function useTournament(): UseTournamentReturn {
     }
   }, [state]);
 
+  const lockMatchResult = useCallback((matchId: string, winnerId: string | null) => {
+    if (!state) {
+      setError('No tournament loaded');
+      return;
+    }
+
+    try {
+      setError(null);
+      const updatedState = lockMatchResultUseCase.execute({ matchId, winnerId, state });
+      setState(updatedState);
+      repository.save(updatedState);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to update match lock';
+      setError(message);
+      console.error('Lock match result error:', err);
+    }
+  }, [state]);
+
   /**
    * Reset the tournament
    */
@@ -117,8 +144,9 @@ export function useTournament(): UseTournamentReturn {
       setError(null);
 
       const freshState = await resetTournamentUseCase.execute(teamsPath, algorithm);
-      setState(freshState);
-      repository.save(freshState);
+      const preparedState = prepareSwissRoundUseCase.execute(freshState);
+      setState(preparedState);
+      repository.save(preparedState);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to reset tournament';
       setError(message);
@@ -177,6 +205,7 @@ export function useTournament(): UseTournamentReturn {
     error,
     loadTournament,
     simulateRound,
+    lockMatchResult,
     resetTournament,
     setDrawAlgorithm,
     saveTournament,

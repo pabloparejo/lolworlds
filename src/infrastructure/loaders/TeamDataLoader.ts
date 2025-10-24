@@ -1,17 +1,15 @@
 import type { Team } from 'domain/entities/types';
-import { Region, TeamStatus } from 'domain/entities/types';
-import { v4 as uuidv4 } from 'uuid';
-
-interface TeamData {
-  name: string;
-  region: Region;
-}
-
-interface TeamsJSON {
-  teams: TeamData[];
-}
+import { TeamStatus } from 'domain/entities/types';
+import type { SeedingConfig, SeedingTeam } from 'domain/entities/SeedingConfig';
+import { SeedingLoader, SeedingLoaderError } from 'infrastructure/persistence/SeedingLoader';
 
 export class TeamDataLoader {
+  private static latestConfig: SeedingConfig | null = null;
+
+  static getLastLoadedConfig(): SeedingConfig | null {
+    return this.latestConfig;
+  }
+
   /**
    * Load and validate teams from a JSON file
    * @param jsonPath - Path to the teams JSON file
@@ -20,54 +18,42 @@ export class TeamDataLoader {
    */
   static async loadTeams(jsonPath: string): Promise<Team[]> {
     try {
-      const response = await fetch(jsonPath);
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch teams data: ${response.statusText}`);
-      }
-
-      const data: TeamsJSON = await response.json();
-
-      if (!data.teams || !Array.isArray(data.teams)) {
-        throw new Error('Invalid teams data format: missing "teams" array');
-      }
-
-      const teams = data.teams.map((teamData, index) =>
-        this.validateAndCreateTeam(teamData, index)
+      const loader = new SeedingLoader();
+      const config = await loader.load(jsonPath);
+      const teams = config.teams.map((team, index) =>
+        this.createTeamFromSeedingTeam(team, index)
       );
 
       this.validateTeamCount(teams);
       this.validateRegionalDistribution(teams);
+      this.latestConfig = config;
 
       return teams;
     } catch (error) {
+      if (error instanceof SeedingLoaderError) {
+        throw new Error(`TeamDataLoader error: ${error.messages.join(', ')}`);
+      }
       if (error instanceof Error) {
         throw new Error(`TeamDataLoader error: ${error.message}`);
       }
-      throw error;
+      throw new Error('TeamDataLoader error: Unknown failure');
     }
   }
 
   /**
    * Validate and create a Team entity from raw data
    */
-  private static validateAndCreateTeam(data: TeamData, index: number): Team {
-    if (!data.name || typeof data.name !== 'string') {
-      throw new Error(`Team at index ${index}: Invalid or missing name`);
+  private static createTeamFromSeedingTeam(data: SeedingTeam, index: number): Team {
+    if (!data.id) {
+      throw new Error(`Team at index ${index}: Missing id`);
     }
 
-    if (data.name.length < 1 || data.name.length > 50) {
-      throw new Error(`Team at index ${index}: Name must be between 1 and 50 characters`);
-    }
-
-    if (!data.region || !Object.values(Region).includes(data.region)) {
-      throw new Error(
-        `Team at index ${index}: Invalid region "${data.region}". Must be one of: ${Object.values(Region).join(', ')}`
-      );
+    if (!data.name) {
+      throw new Error(`Team at index ${index}: Missing name`);
     }
 
     return {
-      id: uuidv4(),
+      id: data.id,
       name: data.name.trim(),
       region: data.region,
       wins: 0,
@@ -96,16 +82,8 @@ export class TeamDataLoader {
     const regionCounts = teams.reduce((acc, team) => {
       acc[team.region] = (acc[team.region] || 0) + 1;
       return acc;
-    }, {} as Record<Region, number>);
+    }, {} as Record<string, number>);
 
-    // Log distribution for debugging
     console.log('Team regional distribution:', regionCounts);
-
-    // Warn if any region has 0 teams (unusual but not fatal)
-    Object.values(Region).forEach(region => {
-      if (!regionCounts[region]) {
-        console.warn(`Warning: No teams from region ${region}`);
-      }
-    });
   }
 }
