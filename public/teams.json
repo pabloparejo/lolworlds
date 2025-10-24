@@ -1,68 +1,45 @@
 {
+  "metadata": {
+    "season": "Worlds 2025",
+    "formatVersion": "1.0.0"
+  },
   "teams": [
+    { "id": "GENG", "name": "Gen.G", "region": "LCK", "seed": 1 },
+    { "id": "TES", "name": "Top Esports", "region": "LPL", "seed": 1 },
+    { "id": "G2", "name": "G2 Esports", "region": "LEC", "seed": 1 },
+    { "id": "FLY", "name": "FlyQuest", "region": "LCS", "seed": 1 },
+    { "id": "PSG", "name": "PSG Talon", "region": "LCP", "seed": 1 },
+    { "id": "T1", "name": "T1", "region": "LCK", "seed": 2 },
+    { "id": "BLG", "name": "Bilibili Gaming", "region": "LPL", "seed": 2 },
+    { "id": "MKOI", "name": "MAD KOI", "region": "LEC", "seed": 2 },
+    { "id": "100T", "name": "100 Thieves", "region": "LCS", "seed": 2 },
+    { "id": "CFO", "name": "CTBC Flying Oyster", "region": "LCP", "seed": 2 },
+    { "id": "KT", "name": "KT Rolster", "region": "LCK", "seed": 3 },
+    { "id": "HLE", "name": "Hanwha Life Esports", "region": "LCK", "seed": 3 },
+    { "id": "AL", "name": "Anyone's Legend", "region": "LPL", "seed": 3 },
+    { "id": "FNC", "name": "Fnatic", "region": "LEC", "seed": 3 },
+    { "id": "VKS", "name": "Vivo Keyd Stars", "region": "LCS", "seed": 3 },
+    { "id": "TSW", "name": "Taipei Summer Wind", "region": "LCP", "seed": 3 }
+  ],
+  "tiers": {
+    "tier1": ["GENG", "TES", "G2", "FLY", "PSG"],
+    "tier2": ["T1", "BLG", "MKOI", "100T", "CFO", "KT"],
+    "tier3": ["HLE", "AL", "FNC", "VKS", "TSW"]
+  },
+  "initialRounds": [
     {
-      "name": "T1",
-      "region": "LCK"
-    },
-    {
-      "name": "Gen.G",
-      "region": "LCK"
-    },
-    {
-      "name": "KT Rolster",
-      "region": "LCK"
-    },
-    {
-      "name": "Hanwha Life Esports",
-      "region": "LCK"
-    },
-    {
-      "name": "JD Gaming",
-      "region": "LPL"
-    },
-    {
-      "name": "Bilibili Gaming",
-      "region": "LPL"
-    },
-    {
-      "name": "Weibo Gaming",
-      "region": "LPL"
-    },
-    {
-      "name": "LNG Esports",
-      "region": "LPL"
-    },
-    {
-      "name": "G2 Esports",
-      "region": "LEC"
-    },
-    {
-      "name": "MAD Lions",
-      "region": "LEC"
-    },
-    {
-      "name": "Fnatic",
-      "region": "LEC"
-    },
-    {
-      "name": "Cloud9",
-      "region": "LCS"
-    },
-    {
-      "name": "Team Liquid",
-      "region": "LCS"
-    },
-    {
-      "name": "GAM Esports",
-      "region": "LCP"
-    },
-    {
-      "name": "PSG Talon",
-      "region": "LCP"
-    },
-    {
-      "name": "DRX",
-      "region": "LCP"
+      "roundNumber": 1,
+      "source": "baseline-json",
+      "matchups": [
+        { "teamA": "GENG", "teamB": "AL" },
+        { "teamA": "TES", "teamB": "FNC" },
+        { "teamA": "G2", "teamB": "VKS" },
+        { "teamA": "FLY", "teamB": "TSW" },
+        { "teamA": "PSG", "teamB": "HLE" },
+        { "teamA": "T1", "teamB": "MKOI" },
+        { "teamA": "BLG", "teamB": "100T" },
+        { "teamA": "CFO", "teamB": "KT" }
+      ]
     }
   ]
 }
