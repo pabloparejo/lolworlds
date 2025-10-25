@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Team } from 'domain/entities/types';
 import { RecordGroup } from './RecordGroup';
+import { TeamSummarySection } from './TeamSummarySection';
 
 interface ResultsSectionProps {
   qualifiedGroups: Array<{ record: string; teams: Team[] }>;
@@ -33,11 +34,13 @@ export const ResultsSection: React.FC<ResultsSectionProps> = React.memo(({
           </h3>
           <div className="flex flex-col">
             {visibleQualifiedGroups.map(group => (
-              <RecordGroup
+              <TeamSummarySection
                 key={group.record}
+                onTeamClick={onTeamClick}
                 record={group.record}
                 teams={group.teams.map(team => ({ team }))}
-                onTeamClick={onTeamClick}
+                title={group.record}
+                variant="success"
               />
             ))}
           </div>
@@ -51,11 +54,13 @@ export const ResultsSection: React.FC<ResultsSectionProps> = React.memo(({
           </h3>
           <div className="flex flex-col">
             {visibleEliminatedGroups.map(group => (
-              <RecordGroup
+              <TeamSummarySection
+                title={group.record}
                 key={group.record}
+                onTeamClick={onTeamClick}
                 record={group.record}
                 teams={group.teams.map(team => ({ team }))}
-                onTeamClick={onTeamClick}
+                variant="danger"
               />
             ))}
           </div>

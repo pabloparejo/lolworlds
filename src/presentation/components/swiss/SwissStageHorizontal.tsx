@@ -227,14 +227,14 @@ export const SwissStageHorizontal: React.FC<SwissStageHorizontalProps> = ({
 
           {enrichedRounds.map(({ roundNumber, matches, topSummary, bottomSummary }) => (
             <RoundColumn
-              key={roundNumber}
-              roundNumber={roundNumber}
-              matches={matches}
-              onTeamClick={onTeamClick}
-              onSelectWinner={onSelectMatchWinner}
-              onVsClick={onVsClick}
-              topSummary={topSummary}
               bottomSummary={bottomSummary}
+              key={roundNumber}
+              matches={matches}
+              onSelectWinner={onSelectMatchWinner}
+              onTeamClick={onTeamClick}
+              onVsClick={onVsClick}
+              roundNumber={roundNumber}
+              topSummary={topSummary}
             />
           ))}
 

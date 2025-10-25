@@ -25,7 +25,7 @@ export const TeamSummarySection: React.FC<TeamSummaryProps> = ({
 
   return (
     <section
-      className={`rounded-2xl border bg-[rgb(var(--color-card))] px-2 py-2 shadow-sm shadow-black/5 ${colorClass} ${className}`}
+      className={`mb-2 rounded-2xl border bg-[rgb(var(--color-card))] px-2 py-2 shadow-sm shadow-black/5 ${colorClass} ${className}`}
       aria-label={title}
     >
       <h4 className={`text-sm font-semibold ${variant === 'success' ? 'text-[rgb(var(--color-success))]' : 'text-[rgb(var(--color-danger))]'}`}>
@@ -38,7 +38,7 @@ export const TeamSummarySection: React.FC<TeamSummaryProps> = ({
             key={team.id}
             onClick={() => onTeamClick(team.id)}
             showBadge
-            className="w-72"
+            className="w-22"
             team={team}
           />
         ))}
