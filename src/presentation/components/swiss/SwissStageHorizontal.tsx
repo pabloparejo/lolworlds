@@ -21,6 +21,7 @@ interface SwissStageHorizontalProps {
   onVsClick: (matchId: string) => void;
   onSimulateRound: () => void;
   onResetTournament: () => void;
+  onPartialReset: () => void;
 }
 
 export const SwissStageHorizontal: React.FC<SwissStageHorizontalProps> = ({
@@ -31,7 +32,8 @@ export const SwissStageHorizontal: React.FC<SwissStageHorizontalProps> = ({
   onSelectMatchWinner,
   onVsClick,
   onSimulateRound,
-  onResetTournament
+  onResetTournament,
+  onPartialReset,
 }) => {
   const stageStatus = state.swissStage.status;
   const currentRound = state.swissStage.currentRoundNumber ?? 0;
@@ -71,6 +73,17 @@ export const SwissStageHorizontal: React.FC<SwissStageHorizontalProps> = ({
   const canSimulateRound = hasPendingMatches;
   const advanceMode = allPendingLocked;
   const canChangeWinningChances = state.matchHistory.length === 0;
+
+  const canPartialReset = useMemo(() => {
+    const swissRounds = state.swissStage.roundIds
+      .map(roundId => state.rounds.find(round => round.id === roundId))
+      .filter((round): round is typeof state.rounds[number] => Boolean(round));
+
+    return swissRounds.some(round => {
+      const source = state.roundMetadata?.[round.id]?.source ?? 'simulated';
+      return source === 'manual' || source === 'baseline-json';
+    });
+  }, [state.swissStage.roundIds, state.rounds, state.roundMetadata]);
 
   const getTeamsByRecordFromSnapshot = (
     record: string,
@@ -268,7 +281,9 @@ export const SwissStageHorizontal: React.FC<SwissStageHorizontalProps> = ({
         advanceMode={advanceMode}
         canChangeWinningChances={canChangeWinningChances}
         onSimulateRound={onSimulateRound}
-        onReset={onResetTournament}
+        onFullReset={onResetTournament}
+        onPartialReset={onPartialReset}
+        canPartialReset={canPartialReset}
         drawAlgorithm={drawAlgorithm}
         onDrawAlgorithmChange={onDrawAlgorithmChange}
       />

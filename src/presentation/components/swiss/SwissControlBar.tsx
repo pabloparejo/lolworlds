@@ -8,11 +8,15 @@ interface SwissControlBarProps {
   maxRounds: number;
   canSimulateRound: boolean;
   advanceMode: boolean;
+  manualRoundEnabled: boolean;
   onSimulateRound: () => void;
-  onReset: () => void;
+  onFullReset: () => void;
+  onPartialReset: () => void;
   drawAlgorithm: DrawAlgorithm;
   onDrawAlgorithmChange: (algorithm: DrawAlgorithm) => void;
   canChangeWinningChances: boolean;
+  onOpenManualRound: () => void;
+  canPartialReset: boolean;
 }
 
 export const SwissControlBar: React.FC<SwissControlBarProps> = ({
@@ -21,11 +25,15 @@ export const SwissControlBar: React.FC<SwissControlBarProps> = ({
   drawAlgorithm,
   maxRounds,
   advanceMode,
+  manualRoundEnabled,
   onDrawAlgorithmChange,
-  onReset,
+  onFullReset,
+  onPartialReset,
   onSimulateRound,
   stageStatus,
   canChangeWinningChances,
+  onOpenManualRound,
+  canPartialReset,
 }) => {
   const isComplete = stageStatus === StageStatus.COMPLETED;
   const canAdjustChances = canChangeWinningChances && !isComplete;
@@ -88,19 +96,37 @@ export const SwissControlBar: React.FC<SwissControlBarProps> = ({
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
           <button
             type="button"
+            onClick={onOpenManualRound}
+            disabled={!manualRoundEnabled}
+            className="inline-flex w-full items-center justify-center rounded-lg border border-[rgb(var(--color-border))] px-4 py-2 text-sm font-semibold text-[rgb(var(--color-foreground))] transition-colors hover:bg-[rgb(var(--color-accent))] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          >
+            Create Manual Round
+          </button>
+          <button
+            type="button"
             onClick={onSimulateRound}
             disabled={isComplete || !canSimulateRound}
             className="inline-flex w-full items-center justify-center rounded-lg bg-[rgb(var(--color-primary))] px-4 py-2 text-sm font-semibold text-[rgb(var(--color-primary-foreground))] transition-colors hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
           >
             {isComplete ? 'Swiss Complete' : simulateLabel}
           </button>
-          <button
-            type="button"
-            onClick={onReset}
-            className="inline-flex w-full items-center justify-center rounded-lg border border-[rgb(var(--color-border))] px-4 py-2 text-sm font-semibold text-[rgb(var(--color-danger))] transition-colors hover:bg-[rgba(var(--color-danger),0.1)] sm:w-auto"
-          >
-            Reset Tournament
-          </button>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <button
+              type="button"
+              onClick={onPartialReset}
+              disabled={!canPartialReset}
+              className="inline-flex w-full items-center justify-center rounded-lg border border-[rgb(var(--color-border))] px-4 py-2 text-sm font-semibold text-[rgb(var(--color-warning))] transition-colors hover:bg-[rgba(var(--color-warning),0.15)] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+            >
+              Partial Reset
+            </button>
+            <button
+              type="button"
+              onClick={onFullReset}
+              className="inline-flex w-full items-center justify-center rounded-lg border border-[rgb(var(--color-border))] px-4 py-2 text-sm font-semibold text-[rgb(var(--color-danger))] transition-colors hover:bg-[rgba(var(--color-danger),0.1)] sm:w-auto"
+            >
+              Full Reset
+            </button>
+          </div>
         </div>
       </div>
     </div>
