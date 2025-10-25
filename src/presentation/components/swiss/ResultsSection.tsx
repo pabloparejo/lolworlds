@@ -1,58 +1,61 @@
 import React from 'react';
 import type { Team } from 'domain/entities/types';
-import { TeamCard } from './TeamCard';
+import { RecordGroup } from './RecordGroup';
 
 interface ResultsSectionProps {
-  qualifiedTeams: Team[];
-  eliminatedTeams: Team[];
+  qualifiedGroups: Array<{ record: string; teams: Team[] }>;
+  eliminatedGroups: Array<{ record: string; teams: Team[] }>;
   onTeamClick: (teamId: string) => void;
   qualifiedTitle?: string;
   eliminatedTitle?: string;
 }
 
 export const ResultsSection: React.FC<ResultsSectionProps> = React.memo(({
-  qualifiedTeams,
-  eliminatedTeams,
+  qualifiedGroups,
+  eliminatedGroups,
   onTeamClick,
-  qualifiedTitle = 'Qualified (3 Wins)',
-  eliminatedTitle = 'Eliminated (3 Losses)'
+  qualifiedTitle = 'Qualified Teams',
+  eliminatedTitle = 'Eliminated Teams'
 }) => {
+  const visibleQualifiedGroups = qualifiedGroups.filter(group => group.teams.length > 0);
+  const visibleEliminatedGroups = eliminatedGroups.filter(group => group.teams.length > 0);
+
   return (
     <section
       role="region"
       aria-label="Tournament results"
       className="flex-shrink-0 w-72 sm:w-80 px-3 py-2"
     >
-      {qualifiedTeams.length > 0 && (
-        <div className="mb-6 rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-4 py-5 shadow-md shadow-black/5" aria-label="Qualified teams">
-          <h3 className="text-lg font-bold mb-2 text-[rgb(var(--color-success))]">
+      {visibleQualifiedGroups.length > 0 && (
+        <div className="mb-6" aria-label="Qualified teams">
+          <h3 className="text-lg font-bold mb-3 text-[rgb(var(--color-success))]">
             {qualifiedTitle}
           </h3>
-          <div className="flex flex-col gap-3">
-            {qualifiedTeams.map(team => (
-              <TeamCard
-                key={team.id}
-                team={team}
-                onClick={() => onTeamClick(team.id)}
-                badgeContent={`${team.wins}-${team.losses}`}
+          <div className="flex flex-col">
+            {visibleQualifiedGroups.map(group => (
+              <RecordGroup
+                key={group.record}
+                record={group.record}
+                teams={group.teams.map(team => ({ team }))}
+                onTeamClick={onTeamClick}
               />
             ))}
           </div>
         </div>
       )}
 
-      {eliminatedTeams.length > 0 && (
-        <div className="rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-4 py-5 shadow-md shadow-black/5" aria-label="Eliminated teams">
-          <h3 className="text-lg font-bold mb-2 text-[rgb(var(--color-danger))]">
+      {visibleEliminatedGroups.length > 0 && (
+        <div className="mb-6" aria-label="Eliminated teams">
+          <h3 className="text-lg font-bold mb-3 text-[rgb(var(--color-danger))]">
             {eliminatedTitle}
           </h3>
-          <div className="flex flex-col gap-3">
-            {eliminatedTeams.map(team => (
-              <TeamCard
-                key={team.id}
-                team={team}
-                onClick={() => onTeamClick(team.id)}
-                badgeContent={`${team.wins}-${team.losses}`}
+          <div className="flex flex-col">
+            {visibleEliminatedGroups.map(group => (
+              <RecordGroup
+                key={group.record}
+                record={group.record}
+                teams={group.teams.map(team => ({ team }))}
+                onTeamClick={onTeamClick}
               />
             ))}
           </div>

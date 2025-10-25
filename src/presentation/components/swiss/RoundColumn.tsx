@@ -3,7 +3,7 @@ import { RecordGroup } from './RecordGroup';
 import { groupMatchesByRecord } from '../../utils/recordGroupingUtils';
 import type { SwissMatchWithTeams } from './types';
 import type { Team } from 'domain/entities/types';
-import { TeamCard } from './TeamCard';
+import { TeamSummarySection } from './TeamSummarySection';
 
 interface RoundColumnProps {
   roundNumber: number;
@@ -34,11 +34,28 @@ export const RoundColumn: React.FC<RoundColumnProps> = React.memo(({
     return groupMatchesByRecord(matches);
   }, [matches]);
 
+  const paddingTopClass = useMemo(() => {
+    switch (roundNumber) {
+      case 1:
+        return 'pt-18';
+      case 2:
+        return 'pt-13';
+      case 3:
+        return 'pt-4';
+      case 4:
+        return 'pt-0'
+      case 5:
+        return 'pt-28';
+      default:
+        return '';
+    }
+  }, [roundNumber]);
+
   return (
     <div
       role="region"
       aria-label={`Round ${roundNumber}`}
-      className="flex h-full w-72 flex-shrink-0 flex-col justify-center gap-4 px-3 py-4 sm:w-80 sm:px-4"
+      className="flex h-full w-72 flex-shrink-0 flex-col justify-center px-3 py-4 sm:w-80 sm:px-4"
       data-round={roundNumber}
     >
       <h3
@@ -47,55 +64,37 @@ export const RoundColumn: React.FC<RoundColumnProps> = React.memo(({
       >
         Round {roundNumber}
       </h3>
+      <section className={paddingTopClass}>
+        {topSummary && (
+          <TeamSummarySection
+            title={topSummary.title}
+            teams={topSummary.teams}
+            onTeamClick={onTeamClick}
+            variant="success"
+            className="mb-2"
+          />
+        )}
 
-      {topSummary && topSummary.teams.length > 0 && (
-        <section className="rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-3 py-3 shadow-sm shadow-black/5" aria-label={topSummary.title}>
-          <h4 className="text-sm font-semibold text-[rgb(var(--color-success))]">
-            {topSummary.title}
-          </h4>
-          <div className="mt-2 flex flex-col gap-2">
-            {topSummary.teams.map(({ team, record }) => (
-              <TeamCard
-                key={team.id}
-                team={team}
-                showBadge
-                badgeContent={record}
-                onClick={() => onTeamClick(team.id)}
-              />
-            ))}
-          </div>
-        </section>
-      )}
+        {Array.from(recordGroups.entries()).map(([record, groupMatches]) => (
+          <RecordGroup
+            key={record}
+            record={record}
+            matches={groupMatches}
+            onTeamClick={onTeamClick}
+            onSelectWinner={onSelectWinner}
+            onVsClick={onVsClick}
+          />
+        ))}
 
-      {Array.from(recordGroups.entries()).map(([record, groupMatches]) => (
-        <RecordGroup
-          key={record}
-          record={record}
-          matches={groupMatches}
-          onTeamClick={onTeamClick}
-          onSelectWinner={onSelectWinner}
-          onVsClick={onVsClick}
-        />
-      ))}
-
-      {bottomSummary && bottomSummary.teams.length > 0 && (
-        <section className="rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-3 py-3 shadow-sm shadow-black/5" aria-label={bottomSummary.title}>
-          <h4 className="text-sm font-semibold text-[rgb(var(--color-danger))]">
-            {bottomSummary.title}
-          </h4>
-          <div className="mt-2 flex flex-col gap-2">
-            {bottomSummary.teams.map(({ team, record }) => (
-              <TeamCard
-                key={team.id}
-                team={team}
-                showBadge
-                badgeContent={record}
-                onClick={() => onTeamClick(team.id)}
-              />
-            ))}
-          </div>
-        </section>
-      )}
+        {bottomSummary && (
+          <TeamSummarySection
+            title={bottomSummary.title}
+            teams={bottomSummary.teams}
+            onTeamClick={onTeamClick}
+            variant="danger"
+          />
+        )}
+      </section>
     </div>
   );
 });

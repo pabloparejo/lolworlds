@@ -166,12 +166,21 @@ export const SwissStageHorizontal: React.FC<SwissStageHorizontalProps> = ({
   }, [currentRound, swissMatches, teamMap, lockedMatches, state.teams]);
 
   const finalSnapshot = recordSnapshots.get(SWISS_MAX_ROUNDS);
-  const finalQualifiedByRecord = getTeamsByRecordFromSnapshot('3-2', finalSnapshot);
-  const finalEliminatedByRecord = getTeamsByRecordFromSnapshot('2-3', finalSnapshot);
-  const finalQualifiedTeams = finalQualifiedByRecord.map(({ team }) => team);
-  const finalEliminatedTeams = finalEliminatedByRecord.map(({ team }) => team);
+  const qualifiedRecordOrder = ['3-0', '3-1', '3-2'] as const;
+  const finalQualifiedGroups = qualifiedRecordOrder.map(recordValue => {
+    const teamsForRecord = getTeamsByRecordFromSnapshot(recordValue, finalSnapshot).map(({ team }) => team);
+    return { record: recordValue, teams: teamsForRecord };
+  });
 
-  const shouldShowResults = stageStatus === StageStatus.COMPLETED && (finalQualifiedTeams.length > 0 || finalEliminatedTeams.length > 0);
+  const eliminatedRecordOrder = ['0-3', '1-3', '2-3'] as const;
+  const finalEliminatedGroups = eliminatedRecordOrder.map(recordValue => {
+    const teamsForRecord = getTeamsByRecordFromSnapshot(recordValue, finalSnapshot).map(({ team }) => team);
+    return { record: recordValue, teams: teamsForRecord };
+  });
+
+  const qualifiedCount = finalQualifiedGroups.reduce((sum, group) => sum + group.teams.length, 0);
+  const eliminatedCount = finalEliminatedGroups.reduce((sum, group) => sum + group.teams.length, 0);
+  const shouldShowResults = stageStatus === StageStatus.COMPLETED && (qualifiedCount > 0 || eliminatedCount > 0);
   const shouldShowKnockout = stageStatus === StageStatus.COMPLETED;
 
   const summaryConfig: Record<number, { top: { label: string; record: string }; bottom: { label: string; record: string } }> = {
@@ -231,10 +240,10 @@ export const SwissStageHorizontal: React.FC<SwissStageHorizontalProps> = ({
 
           {shouldShowResults && (
             <ResultsSection
-              qualifiedTeams={finalQualifiedTeams}
-              eliminatedTeams={finalEliminatedTeams}
-              qualifiedTitle="Qualified (3-2)"
-              eliminatedTitle="Eliminated (2-3)"
+              qualifiedGroups={finalQualifiedGroups}
+              eliminatedGroups={finalEliminatedGroups}
+              qualifiedTitle="Qualified Teams (3 Wins)"
+              eliminatedTitle="Eliminated Teams"
               onTeamClick={onTeamClick}
             />
           )}

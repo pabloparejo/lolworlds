@@ -7,13 +7,15 @@ interface MatchRowProps {
   onTeamClick?: (teamId: string) => void;
   onSelectWinner?: (matchId: string, teamId: string) => void;
   onVsClick?: (matchId: string) => void;
+  showDivider?: boolean;
 }
 
 export const MatchRow: React.FC<MatchRowProps> = ({
   match,
   onTeamClick,
   onSelectWinner,
-  onVsClick
+  onVsClick,
+  showDivider = true
 }) => {
   const { team1, team2 } = match;
   const isLocked = match.locked || Boolean(match.lockedWinnerId);
@@ -34,7 +36,10 @@ export const MatchRow: React.FC<MatchRowProps> = ({
     <div
       role="group"
       aria-label={`${team1.name} versus ${team2.name}`}
-      className="flex flex-col gap-1 border-b border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] p-2 items-center justify-center sm:flex-row"
+      className={`
+        flex flex-col gap-1 bg-[rgb(var(--color-card))] p-2 items-center justify-center sm:flex-row
+        ${showDivider ? 'border-b border-[rgb(var(--color-border))]' : ''}
+      `}
       data-match-id={match.id}
     >
       <TeamCard

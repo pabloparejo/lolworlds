@@ -76,7 +76,7 @@ export function TournamentPage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-screen-xl space-y-6 px-3 pb-20 sm:pb-24 sm:px-4">
+    <div className="">
       <SwissStageHorizontal
         state={state}
         drawAlgorithm={state.drawAlgorithm}
