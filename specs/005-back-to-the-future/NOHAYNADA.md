@@ -1,0 +1,2 @@
+Estaría guapo poder ir hacia el pasado y reemplazar un equipo por otro:
+ie: Si en la partida de la ronda 2 perdió el equipo A contra el equipo B, poder ir hacia atrás y reemplazar el ganador. De esta manera, veríamos qué le habría tocado al otro equipo en la siguiente ronda (y en el futuro)
