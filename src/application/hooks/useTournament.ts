@@ -6,7 +6,6 @@ import { SimulateRound } from 'application/usecases/SimulateRound';
 import { ResetTournament } from 'application/usecases/ResetTournament';
 import { LocalStorageAdapter } from 'infrastructure/persistence/LocalStorageAdapter';
 import { PrepareSwissRound } from 'application/usecases/PrepareSwissRound';
-import { CreateManualRound } from 'application/usecases/CreateManualRound';
 import { PartialResetTournament } from 'application/usecases/PartialResetTournament';
 import { LockMatchResult } from 'application/usecases/LockMatchResult';
 
@@ -16,7 +15,6 @@ const resetTournamentUseCase = new ResetTournament();
 const repository = new LocalStorageAdapter();
 const prepareSwissRoundUseCase = new PrepareSwissRound();
 const lockMatchResultUseCase = new LockMatchResult();
-const createManualRoundUseCase = new CreateManualRound();
 const partialResetTournamentUseCase = new PartialResetTournament();
 
 export interface UseTournamentReturn {
@@ -26,7 +24,6 @@ export interface UseTournamentReturn {
   loadTournament: (teamsPath?: string, algorithm?: DrawAlgorithm) => Promise<void>;
   simulateRound: () => void;
   lockMatchResult: (matchId: string, winnerId: string | null) => void;
-  createManualRound: (matchups: Array<{ teamAId: string; teamBId: string }>) => void;
   resetTournament: (teamsPath?: string, algorithm?: DrawAlgorithm) => Promise<void>;
   partialResetTournament: () => void;
   setDrawAlgorithm: (algorithm: DrawAlgorithm) => void;
@@ -138,24 +135,6 @@ export function useTournament(): UseTournamentReturn {
     }
   }, [state]);
 
-  const createManualRound = useCallback((matchups: Array<{ teamAId: string; teamBId: string }>) => {
-    if (!state) {
-      setError('No tournament loaded');
-      return;
-    }
-
-    try {
-      setError(null);
-      const updatedState = createManualRoundUseCase.execute({ state, matchups });
-      setState(updatedState);
-      repository.save(updatedState);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to create manual round';
-      setError(message);
-      console.error('Create manual round error:', err);
-      throw err;
-    }
-  }, [state]);
 
   /**
    * Reset the tournament
@@ -249,7 +228,6 @@ export function useTournament(): UseTournamentReturn {
     loadTournament,
     simulateRound,
     lockMatchResult,
-    createManualRound,
     resetTournament,
     partialResetTournament,
     setDrawAlgorithm,

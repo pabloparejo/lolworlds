@@ -11,7 +11,6 @@ export function TournamentPage() {
     partialResetTournament,
     setDrawAlgorithm,
     lockMatchResult,
-    createManualRound,
   } = useTournamentContext();
 
   if (isLoading) {
@@ -89,7 +88,6 @@ export function TournamentPage() {
         onSimulateRound={simulateRound}
         onResetTournament={() => resetTournament()}
         onPartialReset={partialResetTournament}
-        onCreateManualRound={createManualRound}
       />
     </div>
   );
